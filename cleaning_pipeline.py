@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from imblearn.over_sampling import SMOTE
 
 # _*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_* CLEANING FUNCTIONS  _*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*
 
@@ -27,22 +26,6 @@ def handle_date_time_data(df, date_columns):
 # Function to handle duplicates
 def handle_duplicates(df):
     return df.drop_duplicates()
-
-# ____________________ IMBALANCED DATA
-
-# Function to handle imbalanced data using SMOTE
-def handle_imbalanced_data(df, target_column):
-    # Separate features and target variable
-    X = df.drop(columns=[target_column])
-    y = df[target_column]
-
-    # Apply SMOTE to oversample the minority class
-    smote = SMOTE(random_state=42)
-    X_resampled, y_resampled = smote.fit_resample(X, y)
-
-    # Create a balanced DataFrame
-    balanced_df = pd.concat([pd.DataFrame(X_resampled, columns=X.columns), pd.Series(y_resampled, name=target_column)], axis=1)
-    return balanced_df
 
 # ____________________ NULL VALUES  
 
